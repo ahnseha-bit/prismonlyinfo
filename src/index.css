@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Noto+Serif+KR:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-serif bg-white text-slate-600 m-0 p-0 w-full h-full overflow-x-hidden;
+  }
+
+  :root {
+    --holo-pink: #FF85A1;
+    --holo-blue: #4CC9FE;
+    --holo-green: #48E19F;
+    --holo-purple: #B377FF;
+  }
+}
+
+@layer components {
+  /* 솔리드 하늘색 그림자 베이스 (각진 형태) */
+  .shadow-frame {
+    @apply relative bg-primary-light transform -translate-x-2 -translate-y-2;
+    box-shadow: 8px 8px 0px #bae6fd;
+  }
+
+  /* 얇은 홀로그램 이중 라인 (고정된 그라데이션) */
+  .outer-holo-line {
+    @apply p-[1px];
+    background: linear-gradient(45deg, var(--holo-pink), var(--holo-blue), var(--holo-green), var(--holo-purple), var(--holo-pink));
+  }
+
+  .white-spacer {
+    @apply bg-white p-[2px];
+  }
+
+  .inner-holo-line {
+    @apply p-[1px];
+    background: linear-gradient(225deg, var(--holo-pink), var(--holo-blue), var(--holo-green), var(--holo-purple), var(--holo-pink));
+  }
+
+  /* 본체 화이트 보드 */
+  .main-board {
+    @apply bg-white p-6 md:p-12 text-center rounded-none relative z-10;
+  }
+
+  .title-text {
+    @apply text-2xl md:text-3xl font-bold tracking-[0.3em] text-primary uppercase mb-8 italic;
+  }
+
+  .content-text {
+    @apply text-slate-600 font-normal leading-[2.1] text-[1.05rem] break-keep;
+  }
+
+  .line-accent {
+    @apply w-10 h-[2px] bg-primary-light mx-auto my-8;
+  }
+
+  .footer-text {
+    @apply text-xs text-slate-400 tracking-[0.2em] font-normal;
+  }
+}
