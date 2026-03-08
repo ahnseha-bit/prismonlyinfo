@@ -1,10 +1,7 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Noto+Serif+KR:wght@300;400;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
+@theme {
   --color-hologram-pink: #FF85A1;
   --color-hologram-blue: #4CC9FE;
   --color-hologram-green: #48E19F;
@@ -12,11 +9,14 @@
 
   --color-primary: #7c3aed;
   --color-primary-light: #bae6fd;
+
+  --font-serif: Lora, "Noto Serif KR", serif;
 }
 
 @layer base {
   body {
     background-color: transparent;
+    font-family: var(--font-serif);
   }
 }
 
@@ -39,7 +39,8 @@
   }
 
   .white-spacer {
-    @apply bg-white p-[2px];
+    @apply bg-white;
+    padding: 2px;
   }
 
   .inner-holo-line {
