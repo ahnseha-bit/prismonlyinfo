@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Noto+Serif+KR:wght@300;400;700&display=swap');
-@import "tailwindcss";
 
-@theme {
-  --font-serif: Lora, "Noto Serif KR", serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+:root {
   --color-hologram-pink: #FF85A1;
   --color-hologram-blue: #4CC9FE;
   --color-hologram-green: #48E19F;
@@ -16,7 +17,6 @@
 @layer base {
   body {
     background-color: transparent;
-    font-family: var(--font-serif);
   }
 }
 
@@ -34,7 +34,7 @@
 
   /* 얇은 홀로그램 이중 라인 (고정된 그라데이션) */
   .outer-holo-line {
-    @apply p-[1px];
+    padding: 1px;
     background: linear-gradient(45deg, var(--color-hologram-pink), var(--color-hologram-blue), var(--color-hologram-green), var(--color-hologram-purple), var(--color-hologram-pink));
   }
 
@@ -43,7 +43,7 @@
   }
 
   .inner-holo-line {
-    @apply p-[1px];
+    padding: 1px;
     background: linear-gradient(225deg, var(--color-hologram-pink), var(--color-hologram-blue), var(--color-hologram-green), var(--color-hologram-purple), var(--color-hologram-pink));
   }
 
