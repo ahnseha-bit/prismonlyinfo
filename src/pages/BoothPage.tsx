@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Map, Info } from "lucide-react";
 import Board from "../components/Board";
@@ -13,41 +13,40 @@ export default function BoothPage() {
   const [activeTab, setActiveTab] = useState("list");
 
   return (
-    <div className="w-full flex justify-center py-40 px-4 md:px-10">
-      <Board title="BOOTH" footer="DIGITAL ARCHIVE © 2026 몇 번이라도 프리즘!">
-        <div className="flex border-b border-[#bae6fd] mb-8 overflow-x-auto">
-          {BOOTH_MENU.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`px-6 py-3 font-bold whitespace-nowrap transition-colors flex-shrink-0 ${
-                activeTab === item.id 
-                  ? 'text-[#7c3aed] border-b-2 border-[#7c3aed]' 
-                  : 'text-slate-400 hover:text-[#7c3aed]/70'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-        
-        <div className="min-h-[300px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {activeTab === "list" && <BoothListTab />}
-              {activeTab === "details" && <Placeholder message="부스 상세정보는 모집 완료 후 공개됩니다." icon={<Info className="w-12 h-12 text-[#bae6fd] mb-4" />} />}
-              {activeTab === "map" && <Placeholder message="부스 배치도는 행사 2달 전 공개됩니다." icon={<Map className="w-12 h-12 text-[#bae6fd] mb-4" />} />}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </Board>
-    </div>
+    <Board title="BOOTH" footer="DIGITAL ARCHIVE © 2026 몇 번이라도 프리즘!">
+      <div className="flex border-b border-[#bae6fd] mb-8 overflow-x-auto w-full">
+        {BOOTH_MENU.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`px-6 py-3 font-bold whitespace-nowrap transition-colors flex-shrink-0 ${
+              activeTab === item.id 
+                ? 'text-[#7c3aed] border-b-2 border-[#7c3aed]' 
+                : 'text-slate-400 hover:text-[#7c3aed]/70'
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+      
+      <div className="min-h-[300px] w-full">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+            className="w-full"
+          >
+            {activeTab === "list" && <BoothListTab />}
+            {activeTab === "details" && <Placeholder message="부스 상세정보는 모집 완료 후 공개됩니다." icon={<Info className="w-12 h-12 text-[#bae6fd] mb-4" />} />}
+            {activeTab === "map" && <Placeholder message="부스 배치도는 행사 2달 전 공개됩니다." icon={<Map className="w-12 h-12 text-[#bae6fd] mb-4" />} />}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </Board>
   );
 }
 

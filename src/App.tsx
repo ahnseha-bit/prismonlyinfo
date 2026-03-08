@@ -11,10 +11,11 @@ import LinkWorldPage from "./pages/LinkWorldPage";
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen text-black/80 selection:bg-blue-50 flex flex-col items-center">
+      <div className="min-h-screen text-black/80 selection:bg-blue-50 flex flex-col font-serif">
         <BackgroundStars />
         <Navbar />
-        <main className="w-full flex flex-col items-center">
+        {/* main fills remaining height below Navbar and centers its children */}
+        <main className="w-full flex-1 flex flex-col items-center justify-center pt-20 pb-10 px-4 md:px-10">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/main" element={<MainPage />} />

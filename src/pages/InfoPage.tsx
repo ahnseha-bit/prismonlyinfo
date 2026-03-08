@@ -12,41 +12,40 @@ export default function InfoPage() {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
-    <div className="w-full flex justify-center py-40 px-4 md:px-10">
-      <Board title="INFORMATION" footer="DIGITAL ARCHIVE © 2026 몇 번이라도 프리즘!">
-        <div className="flex border-b border-[#bae6fd] mb-8 overflow-x-auto">
-          {INFO_MENU.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`px-6 py-3 font-bold whitespace-nowrap transition-colors flex-shrink-0 ${
-                activeTab === item.id 
-                  ? 'text-[#7c3aed] border-b-2 border-[#7c3aed]' 
-                  : 'text-slate-400 hover:text-[#7c3aed]/70'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-        
-        <div className="min-h-[300px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {activeTab === "overview" && <OverviewTab />}
-              {activeTab === "visitor" && <AttendeeTab />}
-              {activeTab === "booth" && <BoothTab />}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </Board>
-    </div>
+    <Board title="INFORMATION" footer="DIGITAL ARCHIVE © 2026 몇 번이라도 프리즘!">
+      <div className="flex border-b border-[#bae6fd] mb-8 overflow-x-auto w-full">
+        {INFO_MENU.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`px-6 py-3 font-bold whitespace-nowrap transition-colors flex-shrink-0 ${
+              activeTab === item.id 
+                ? 'text-[#7c3aed] border-b-2 border-[#7c3aed]' 
+                : 'text-slate-400 hover:text-[#7c3aed]/70'
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+      
+      <div className="min-h-[300px] w-full">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+            className="w-full"
+          >
+            {activeTab === "overview" && <OverviewTab />}
+            {activeTab === "visitor" && <AttendeeTab />}
+            {activeTab === "booth" && <BoothTab />}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </Board>
   );
 }
 

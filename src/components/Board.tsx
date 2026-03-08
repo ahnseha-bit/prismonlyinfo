@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from "motion/react";
 
 interface BoardProps {
@@ -12,15 +13,16 @@ export default function Board({ title, children, footer }: BoardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-4xl mx-auto my-8"
+      /* notice-container style: responsive max width, center aligned */
+      className="w-full max-w-3xl mx-auto flex flex-col items-center"
     >
-      <div className="shadow-frame">
-        <div className="outer-holo-line">
-          <div className="white-spacer bg-white p-[2px]">
-            <div className="inner-holo-line">
-              <div className="main-board">
+      <div className="shadow-frame w-full">
+        <div className="outer-holo-line w-full">
+          <div className="white-spacer bg-white p-[2px] w-full">
+            <div className="inner-holo-line w-full">
+              <div className="main-board w-full">
                 {title && <h1 className="title-text">{title}</h1>}
-                <div className="content-text text-left">
+                <div className="content-text text-left w-full">
                   {children}
                 </div>
                 {footer && (
