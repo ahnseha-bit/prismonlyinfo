@@ -1,44 +1,53 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Board from '../components/Board';
-import { Ticket, Gift, Film, Shield } from 'lucide-react';
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Ticket, Gift, Film, Shield } from "lucide-react";
+import Board from "../components/Board";
+
+const EVENT_MENU = [
+  { id: "sticker", label: "스티커 이벤트" },
+  { id: "bingo", label: "트레카 & 빙고" },
+  { id: "movie", label: "응원상영 안내" },
+];
 
 export default function EventPage() {
-  const [activeTab, setActiveTab] = useState(0);
-  const tabs = ['스티커 이벤트', '트레카 & 빙고', '응원상영 안내'];
+  const [activeTab, setActiveTab] = useState("sticker");
 
   return (
-    <Board title="EVENT" footer="DIGITAL ARCHIVE © 2026 몇 번이라도 프리즘!">
-      <div className="flex border-b border-primary-light mb-8 overflow-x-auto no-scrollbar">
-        {tabs.map((tab, idx) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(idx)}
-            className={`px-6 py-3 font-bold whitespace-nowrap transition-colors ${
-              activeTab === idx ? 'text-primary border-b-2 border-primary' : 'text-slate-400 hover:text-primary/70'
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-      
-      <div className="min-h-[300px]">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {activeTab === 0 && <StickerTab />}
-            {activeTab === 1 && <TrekaBingoTab />}
-            {activeTab === 2 && <CheerScreeningTab />}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    </Board>
+    <div className="w-full flex justify-center py-40 px-4 md:px-10">
+      <Board title="EVENT" footer="DIGITAL ARCHIVE © 2026 몇 번이라도 프리즘!">
+        <div className="flex border-b border-[#bae6fd] mb-8 overflow-x-auto">
+          {EVENT_MENU.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`px-6 py-3 font-bold whitespace-nowrap transition-colors flex-shrink-0 ${
+                activeTab === item.id 
+                  ? 'text-[#7c3aed] border-b-2 border-[#7c3aed]' 
+                  : 'text-slate-400 hover:text-[#7c3aed]/70'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+        
+        <div className="min-h-[300px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {activeTab === "sticker" && <StickerTab />}
+              {activeTab === "bingo" && <TrekaBingoTab />}
+              {activeTab === "movie" && <CheerScreeningTab />}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </Board>
+    </div>
   );
 }
 
@@ -46,7 +55,7 @@ function StickerTab() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4 mb-6">
-        <Gift className="w-10 h-10 text-primary p-2 bg-primary-light/20 rounded-full" />
+        <Gift className="w-10 h-10 text-[#7c3aed] p-2 bg-[#bae6fd]/20 rounded-full" />
         <h3 className="text-xl font-bold text-slate-700 italic">도장 쾅쾅! 스티커 이벤트</h3>
       </div>
       <p className="text-slate-600 leading-[2.1]">
@@ -54,9 +63,9 @@ function StickerTab() {
         완성된 스티커 보드를 본부석으로 가져오시면, 특별한 전단지 굿즈 세트를 드립니다. (선착순 100명)
       </p>
       
-      <div className="bg-primary/5 p-6 rounded-lg border border-primary-light mt-6">
-        <h4 className="font-bold text-primary mb-2">참여 팁</h4>
-        <ul className="list-disc pl-5 text-sm text-slate-500 space-y-2">
+      <div className="bg-[#7c3aed]/5 p-6 rounded-lg border border-[#bae6fd] mt-6">
+        <h4 className="font-bold text-[#7c3aed] mb-2">참여 팁</h4>
+        <ul className="list-disc pl-5 text-sm text-slate-600 space-y-2">
           <li>입장 시 제공되는 리플렛 뒷면을 확인해주세요.</li>
           <li>도장은 부스당 1회 받을 수 있습니다.</li>
           <li>협력 부스 스티커는 2개로 인정됩니다!</li>
@@ -70,7 +79,7 @@ function TrekaBingoTab() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4 mb-6">
-        <Ticket className="w-10 h-10 text-primary p-2 bg-primary-light/20 rounded-full" />
+        <Ticket className="w-10 h-10 text-[#7c3aed] p-2 bg-[#bae6fd]/20 rounded-full" />
         <h3 className="text-xl font-bold text-slate-700 italic">트레카 & 전단지 빙고</h3>
       </div>
       <p className="text-slate-600 leading-[2.1]">
@@ -94,7 +103,7 @@ function CheerScreeningTab() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4 mb-6">
-        <Film className="w-10 h-10 text-primary p-2 bg-primary-light/20 rounded-full" />
+        <Film className="w-10 h-10 text-[#7c3aed] p-2 bg-[#bae6fd]/20 rounded-full" />
         <h3 className="text-xl font-bold text-slate-700 italic">응원상영 안내</h3>
       </div>
       <p className="text-slate-600 leading-[2.1] mb-6">

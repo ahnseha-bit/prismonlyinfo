@@ -1,33 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Noto+Serif+KR:wght@300;400;700&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --font-serif: Lora, "Noto Serif KR", serif;
+
+  --color-hologram-pink: #FF85A1;
+  --color-hologram-blue: #4CC9FE;
+  --color-hologram-green: #48E19F;
+  --color-hologram-purple: #B377FF;
+
+  --color-primary: #7c3aed;
+  --color-primary-light: #bae6fd;
+}
 
 @layer base {
   body {
-    @apply font-serif bg-white text-slate-600 m-0 p-0 w-full h-full overflow-x-hidden;
-  }
-
-  :root {
-    --holo-pink: #FF85A1;
-    --holo-blue: #4CC9FE;
-    --holo-green: #48E19F;
-    --holo-purple: #B377FF;
+    background-color: transparent;
+    font-family: var(--font-serif);
   }
 }
 
 @layer components {
+  /* Wireframe box base styles from original */
+  .wireframe-box {
+    @apply border border-black/10 flex items-center justify-center text-black/30 font-serif tracking-widest text-xs uppercase bg-black/5 mix-blend-multiply;
+  }
+
   /* 솔리드 하늘색 그림자 베이스 (각진 형태) */
   .shadow-frame {
     @apply relative bg-primary-light transform -translate-x-2 -translate-y-2;
-    box-shadow: 8px 8px 0px #bae6fd;
+    box-shadow: 8px 8px 0px var(--color-primary-light);
   }
 
   /* 얇은 홀로그램 이중 라인 (고정된 그라데이션) */
   .outer-holo-line {
     @apply p-[1px];
-    background: linear-gradient(45deg, var(--holo-pink), var(--holo-blue), var(--holo-green), var(--holo-purple), var(--holo-pink));
+    background: linear-gradient(45deg, var(--color-hologram-pink), var(--color-hologram-blue), var(--color-hologram-green), var(--color-hologram-purple), var(--color-hologram-pink));
   }
 
   .white-spacer {
@@ -36,12 +44,12 @@
 
   .inner-holo-line {
     @apply p-[1px];
-    background: linear-gradient(225deg, var(--holo-pink), var(--holo-blue), var(--holo-green), var(--holo-purple), var(--holo-pink));
+    background: linear-gradient(225deg, var(--color-hologram-pink), var(--color-hologram-blue), var(--color-hologram-green), var(--color-hologram-purple), var(--color-hologram-pink));
   }
 
   /* 본체 화이트 보드 */
   .main-board {
-    @apply bg-white p-6 md:p-12 text-center rounded-none relative z-10;
+    @apply bg-white/95 backdrop-blur-sm p-6 md:p-12 text-center rounded-none relative z-10;
   }
 
   .title-text {
@@ -49,7 +57,7 @@
   }
 
   .content-text {
-    @apply text-slate-600 font-normal leading-[2.1] text-[1.05rem] break-keep;
+    @apply text-slate-800 font-normal leading-[2.1] text-[1.05rem] break-keep;
   }
 
   .line-accent {

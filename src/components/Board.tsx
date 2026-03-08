@@ -1,7 +1,12 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from "motion/react";
 
-export default function Board({ title, children, footer }) {
+interface BoardProps {
+  title?: string;
+  children: React.ReactNode;
+  footer?: string;
+}
+
+export default function Board({ title, children, footer }: BoardProps) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
