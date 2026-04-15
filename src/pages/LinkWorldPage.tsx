@@ -1,76 +1,104 @@
 import React from "react";
-import { ExternalLink, Twitter, ShoppingCart, Printer } from "lucide-react";
-import Board from "../components/Board";
+import { motion } from "motion/react";
 
-export default function LinkWorldPage() {
+const HoloBox = ({ children }: { children: React.ReactNode }) => (
+  <div className="w-full shadow-frame">
+    <div className="outer-holo-line">
+      <div className="p-[2px] bg-white flex flex-col w-full">
+        <div className="inner-holo-line">
+          <div className="main-board text-left">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+export default function LinkPage() {
+  const linkSections = [
+    {
+      title: "공식",
+      links: [
+        { label: "X (Twitter)", url: "https://x.com/PrismOnly_", value: "@PrismOnly_" },
+        { label: "TMM", url: "#", value: "Now Loading…", isDisabled: true },
+      ],
+    },
+    {
+      title: "협력",
+      links: [
+        { label: "출력소 | 아이엔비", url: "https://x.com/inbcopy", value: "@inbcopy" },
+        { label: "인쇄소 | 아이코믹스", url: "https://t.co/RBObgysRqo", value: "icomics.co.kr" },
+      ],
+    },
+  ];
+
   return (
-    <Board title="LINKS" footer="DIGITAL ARCHIVE © 2026 몇 번이라도 프리즘!">
-      <div className="space-y-12 text-left w-full">
-        <section>
-          <h2 className="text-xl font-bold text-slate-700 italic mb-6 border-b border-[#bae6fd] pb-2">공식 채널</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <LinkCard 
-              icon={<Twitter className="w-8 h-8 text-blue-400" />}
-              title="공식 X (Twitter)"
-              desc="가장 빠른 행사 소식 업데이트"
-              link="https://twitter.com/prism_only_event"
-            />
-            <LinkCard 
-              icon={<ShoppingCart className="w-8 h-8 text-rose-400" />}
-              title="TMM 예매처"
-              desc="입장권 및 공식 굿즈 선입금"
-              link="https://takemm.com"
-            />
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-xl font-bold text-slate-700 italic mb-6 border-b border-[#bae6fd] pb-2">협력사</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <LinkCard 
-              icon={<Printer className="w-8 h-8 text-slate-400" />}
-              title="프린트매니아"
-              desc="행사 전용 할인 혜택"
-              link="#"
-            />
-            <LinkCard 
-              icon={<Printer className="w-8 h-8 text-slate-400" />}
-              title="태양출판사"
-              desc="마감 연장 및 배송 지원"
-              link="#"
-            />
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-xl font-bold text-slate-700 italic mb-6 border-b border-[#bae6fd] pb-2">홍보 배너</h2>
-          <div className="bg-slate-50 p-8 flex flex-col items-center justify-center border border-dashed border-slate-300 rounded-lg text-slate-500 w-full">
-            <div className="w-64 h-20 bg-[#7c3aed]/10 flex items-center justify-center border border-[#bae6fd] mb-4">
-              <span className="text-[#7c3aed] font-bold tracking-widest text-sm">PROMO BANNER</span>
-            </div>
-            <p className="text-sm text-center mb-4">배너 이미지 (200x50)</p>
-            <div className="w-full max-w-md bg-white p-3 text-xs border border-slate-200 rounded text-slate-400 font-mono overflow-x-auto whitespace-nowrap">
-              &lt;a href="https://prism-only.com"&gt;&lt;img src="banner.png" alt="몇 번이라도 프리즘!" /&gt;&lt;/a&gt;
+    <div className="fluid-container min-h-screen pt-[10vh] md:pt-[12vh] pb-[10vh] flex flex-col relative z-10">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="flex flex-col items-center w-full space-y-6 md:space-y-8 mt-4 md:mt-8"
+      >
+        <div className="w-full max-w-3xl shadow-frame">
+          <div className="outer-gold-line">
+            <div className="p-[2px] bg-white flex flex-col w-full">
+              <div className="inner-gold-line">
+                <div className="bg-white p-4 md:px-8 md:py-5 w-full">
+                  <h2 className="text-xl md:text-2xl font-happy font-bold text-accent-gold m-0 tracking-[-0.03em]">
+                    Link World
+                  </h2>
+                </div>
+              </div>
             </div>
           </div>
-        </section>
-      </div>
-    </Board>
-  );
-}
+        </div>
 
-function LinkCard({ icon, title, desc, link }: { icon: React.ReactNode, title: string, desc: string, link: string }) {
-  return (
-    <a href={link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-5 rounded-lg border border-slate-200 bg-white hover:border-[#bae6fd] hover:shadow-md transition-all group">
-      <div className="p-3 bg-slate-50 rounded-full group-hover:bg-[#7c3aed]/5 transition-colors">
-        {icon}
-      </div>
-      <div className="flex-1">
-        <h3 className="font-bold text-slate-700 group-hover:text-[#7c3aed] transition-colors flex items-center gap-2">
-          {title} <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-        </h3>
-        <p className="text-sm text-slate-500 mt-1">{desc}</p>
-      </div>
-    </a>
+        <div className="w-full max-w-3xl">
+          <HoloBox>
+            <div className="content-section space-y-10">
+              <div className="border-b border-slate-100 pb-4">
+                <p className="body-md text-slate-500 font-medium">
+                  행사 관련 외부 링크를 모아둔 페이지입니다.
+                </p>
+              </div>
+
+              <div className="space-y-10">
+                {linkSections.map((section, idx) => (
+                  <div key={idx} className="flex flex-col space-y-4">
+                    <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest border-l-4 border-accent-gold pl-3">
+                      {section.title}
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {section.links.map((link, lIdx) => (
+                        <a
+                          key={lIdx}
+                          href={link.isDisabled ? undefined : link.url}
+                          target={link.isDisabled ? undefined : "_blank"}
+                          rel="noopener noreferrer"
+                          className={`group p-4 border flex flex-col space-y-1 transition-all ${link.isDisabled
+                              ? "bg-slate-50 border-slate-100 cursor-not-allowed"
+                              : "bg-white border-slate-200 hover:border-accent-gold hover:shadow-md"
+                            }`}
+                        >
+                          <span className="text-[10px] font-bold text-slate-400 group-hover:text-accent-gold transition-colors">
+                            {link.label}
+                          </span>
+                          <span className={`text-[13px] md:text-[14px] font-bold ${link.isDisabled ? "text-slate-300 italic" : "text-slate-700"
+                            }`}>
+                            {link.value}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </HoloBox>
+        </div>
+      </motion.div>
+    </div>
   );
 }

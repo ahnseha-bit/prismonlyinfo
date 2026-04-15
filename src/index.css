@@ -1,71 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Metal&display=swap');
+
+@font-face {
+  font-family: 'Happy Time';
+  src: url('HappyTime.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NexonLv2Gothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Noto+Serif+KR:wght@300;400;700&display=swap');
 
 @theme {
-  --color-hologram-pink: #FF85A1;
-  --color-hologram-blue: #4CC9FE;
-  --color-hologram-green: #48E19F;
-  --color-hologram-purple: #B377FF;
+  --font-happy: "Happy Time", serif;
+  --font-metal: "Metal", serif;
+  --font-sans: "NexonLv2Gothic", ui-sans-serif, system-ui, sans-serif;
 
-  --color-primary: #7c3aed;
-  --color-primary-light: #bae6fd;
+  --color-holo-1: #ffd2d2;
+  --color-holo-2: #ffe3c7;
+  --color-holo-3: #fff5c1;
+  --color-holo-4: #ebfbce;
+  --color-holo-5: #c0ffee;
+  --color-holo-6: #afe7ff;
+  --color-holo-7: #dbcbff;
+  --color-holo-8: #ffd6f1;
 
-  --font-serif: Lora, "Noto Serif KR", serif;
+  --color-shadow-blue: #bae6fd;
+  --color-accent-gold: #b39242;
 }
 
 @layer base {
   body {
-    background-color: transparent;
-    font-family: var(--font-serif);
+    @apply font-sans font-normal tracking-normal text-slate-600 bg-white overflow-x-hidden antialiased;
   }
 }
 
 @layer components {
-  /* Wireframe box base styles from original */
-  .wireframe-box {
-    @apply border border-black/10 flex items-center justify-center text-black/30 font-serif tracking-widest text-xs uppercase bg-black/5 mix-blend-multiply;
+  .text-hologram {
+    background-image: linear-gradient(to right, var(--color-holo-1), var(--color-holo-2), var(--color-holo-3), var(--color-holo-4), var(--color-holo-5), var(--color-holo-6), var(--color-holo-7), var(--color-holo-8));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
-  /* 솔리드 하늘색 그림자 베이스 (각진 형태) */
-  .shadow-frame {
-    @apply relative bg-primary-light transform -translate-x-2 -translate-y-2;
-    box-shadow: 8px 8px 0px var(--color-primary-light);
-  }
-
-  /* 얇은 홀로그램 이중 라인 (고정된 그라데이션) */
   .outer-holo-line {
-    padding: 1px;
-    background: linear-gradient(45deg, var(--color-hologram-pink), var(--color-hologram-blue), var(--color-hologram-green), var(--color-hologram-purple), var(--color-hologram-pink));
-  }
-
-  .white-spacer {
-    @apply bg-white;
-    padding: 2px;
+    background-image: linear-gradient(to top right, var(--color-holo-1), var(--color-holo-2), var(--color-holo-3), var(--color-holo-4), var(--color-holo-5), var(--color-holo-6), var(--color-holo-7), var(--color-holo-8));
+    @apply p-[1px] flex flex-col w-full;
   }
 
   .inner-holo-line {
-    padding: 1px;
-    background: linear-gradient(225deg, var(--color-hologram-pink), var(--color-hologram-blue), var(--color-hologram-green), var(--color-hologram-purple), var(--color-hologram-pink));
+    background-image: linear-gradient(to bottom left, var(--color-holo-1), var(--color-holo-2), var(--color-holo-3), var(--color-holo-4), var(--color-holo-5), var(--color-holo-6), var(--color-holo-7), var(--color-holo-8));
+    @apply p-[1px] flex flex-col w-full;
   }
 
-  /* 본체 화이트 보드 */
+  .outer-gold-line {
+    @apply bg-accent-gold p-[3px] flex flex-col w-full;
+  }
+
+  .inner-gold-line {
+    @apply bg-accent-gold p-[1px] flex flex-col w-full;
+  }
+
+  .wireframe-box {
+    @apply border border-black/5 rounded-[4px] bg-white/40 backdrop-blur-[2px] transition-all duration-500 flex items-center justify-center text-black/20 text-[10px] uppercase tracking-[0.2em];
+  }
+
+  .fluid-container {
+    @apply w-full max-w-[1440px] mx-auto px-6 md:px-[10%];
+  }
+
+  .shadow-frame {
+    @apply relative bg-shadow-blue translate-x-[-8px] translate-y-[-8px] ml-2 mt-2 flex flex-col w-full;
+    box-shadow: 8px 8px 0px var(--color-shadow-blue);
+  }
+
   .main-board {
-    @apply bg-white/95 backdrop-blur-sm p-6 md:p-12 text-center rounded-none relative z-10;
+    @apply bg-white p-5 md:p-8 text-center block w-full h-auto font-normal tracking-normal;
   }
 
-  .title-text {
-    @apply text-2xl md:text-3xl font-bold tracking-[0.3em] text-primary uppercase mb-8 italic;
+  .title-accent {
+    @apply text-accent-gold font-happy tracking-[-0.03em] font-bold;
   }
 
-  .content-text {
-    @apply text-slate-800 font-normal leading-[2.1] text-[1.05rem] break-keep;
+  .body-lg {
+    @apply text-[15px] md:text-[18px] font-bold leading-relaxed text-slate-700 tracking-normal;
   }
 
-  .line-accent {
-    @apply w-10 h-[2px] bg-primary-light mx-auto my-8;
+  .body-md {
+    @apply text-[13px] md:text-[15px] font-normal leading-relaxed text-slate-600 tracking-normal;
   }
 
-  .footer-text {
-    @apply text-xs text-slate-400 tracking-[0.2em] font-normal;
+  .body-sm {
+    @apply text-[11px] md:text-[13px] font-normal leading-relaxed text-slate-500 tracking-normal;
   }
+
+  .content-section {
+    @apply py-2 space-y-6;
+  }
+
+  .content-label {
+    @apply text-[11px] md:text-[13px] font-bold leading-normal text-accent-gold mb-1 tracking-normal;
+  }
+}
+
+.main-board::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-board::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main-board::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.main-board::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
 }

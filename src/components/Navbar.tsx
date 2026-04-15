@@ -16,70 +16,70 @@ export default function Navbar() {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  if (location.pathname === "/") return null;
+
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md">
-        <div className="max-w-[1440px] mx-auto px-10 h-20 flex items-center justify-between">
-          <Link to="/main" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 wireframe-box">Logo</div>
-            <span className="font-serif font-light text-xs tracking-[0.3em] text-black/60 uppercase">Starry 2026</span>
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-white/60 backdrop-blur-sm border-b border-slate-100">
+        <div className="w-full max-w-[1440px] mx-auto px-[6%] h-[8vh] flex items-center justify-between">
+
+          <Link to="/" className="flex items-center group">
+            <img
+              src="/img/logo_menu.png"
+              alt="Menu Logo"
+              className="h-[4vh] transition-transform duration-300 group-hover:scale-105"
+            />
           </Link>
 
-          {/* Desktop Menu - Small and Clean */}
-          <div className="hidden md:flex items-center space-x-12">
+          <div className="hidden md:flex space-x-6 lg:space-x-8 ml-auto mr-12">
             {NAV_ITEMS.slice(1).map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`text-[10px] uppercase font-light tracking-[0.3em] transition-all duration-400 hover:text-black ${
-                  location.pathname.startsWith(item.path) ? "text-black font-medium" : "text-black/30"
-                }`}
+                className={`text-[13px] font-happy tracking-[0.15em] transition-all duration-400 hover:text-accent-gold ${location.pathname.startsWith(item.path) ? "text-accent-gold font-bold" : "text-slate-400"
+                  }`}
               >
                 {item.name}
               </Link>
             ))}
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button 
-            className="md:hidden text-black/40 hover:text-black transition-colors"
+          <button
+            className="md:hidden text-slate-400 hover:text-accent-gold transition-colors"
             onClick={() => setIsMobileMenuOpen(true)}
           >
-            <Menu size={20} strokeWidth={1.5} />
+            <Menu size={18} strokeWidth={1.5} />
           </button>
         </div>
       </nav>
 
-      {/* Frame 3: Mobile Fullscreen Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-[#f3f0ff]/95 backdrop-blur-sm flex flex-col items-center justify-center"
+            className="fixed inset-0 z-50 bg-white/98 backdrop-blur-md flex flex-col items-center justify-center"
           >
-            <button 
-              className="absolute top-8 right-10 text-black/40 hover:text-black p-2"
+            <button
+              className="absolute top-[4vh] right-[6%] text-slate-400 hover:text-accent-gold p-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <X size={24} strokeWidth={1} />
             </button>
 
-            <div className="flex flex-col items-center space-y-8">
+            <div className="flex flex-col items-center space-y-[4vh]">
               {NAV_ITEMS.map((item, i) => (
                 <motion.div
                   key={item.path}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
                 >
                   <Link
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`text-2xl font-serif font-light tracking-[0.2em] uppercase transition-colors ${
-                      location.pathname === item.path ? "text-black" : "text-black/30 hover:text-black/60"
-                    }`}
+                    className="text-2xl font-happy italic font-bold tracking-[0.1em] text-accent-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.6)]"
                   >
                     {item.name}
                   </Link>
