@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, ChevronDown, Twitter, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Search, Twitter, ChevronLeft, ChevronRight, X, ArrowUpDown } from "lucide-react";
 
 // The Original Data migrated with Sample Data
 const RAW_BOOTH_DATA = [
@@ -74,11 +74,10 @@ const SAMPLE_IMAGES = [
 ];
 
 const BOOTH_DATA = RAW_BOOTH_DATA.map((booth, index) => {
-    const row = String.fromCharCode(65 + Math.floor(index / 10)); // A, B, C...
+    const row = String.fromCharCode(65 + Math.floor(index / 10));
     const num = (index % 10) + 1;
     const id = `${row}${num}`;
     
-    // Random 2 tags
     const tags = [
         SAMPLE_TAGS[index % SAMPLE_TAGS.length], 
         SAMPLE_TAGS[(index + 2) % SAMPLE_TAGS.length]
@@ -91,7 +90,7 @@ const BOOTH_DATA = RAW_BOOTH_DATA.map((booth, index) => {
             nickname: m,
             twitter: i % 2 === 0 ? `twitter_${m}` : undefined
         })),
-        description: `안녕하세요! 저희 [${booth.name}] 부스에서는 다양한 작품을 선보일 예정입니다. 많은 관심 부탁드립니다.\n이번 행사에서만 만나보실 수 있는 특별한 아이템들도 준비되어 있습니다.`,
+        description: `저희 [${booth.name}] 부스에 오신 것을 환영합니다!\n올해 행사에서는 특별한 아이템들과 함께 다양한 작품을 선보일 예정입니다.\n많은 관심과 사랑 부탁드립니다!`,
         tags,
         imageUrl: SAMPLE_IMAGES[index % SAMPLE_IMAGES.length]
     };
@@ -100,24 +99,22 @@ const BOOTH_DATA = RAW_BOOTH_DATA.map((booth, index) => {
 type SortOption = "id" | "name";
 
 export default function BoothList() {
-    const [expandedId, setExpandedId] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOption, setSortOption] = useState<SortOption>("id");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 12;
 
     const filteredAndSortedBooths = useMemo(() => {
-        // Filter
         let result = BOOTH_DATA.filter((booth) => {
             const term = searchTerm.toLowerCase();
             return (
                 booth.name.toLowerCase().includes(term) ||
                 booth.id.toLowerCase().includes(term) ||
-                booth.tags.some(tag => tag.toLowerCase().includes(term))
+                booth.tags.some(tag => tag.toLowerCase().includes(term)) ||
+                booth.members.some(member => member.nickname.toLowerCase().includes(term))
             );
         });
 
-        // Sort
         result = result.sort((a, b) => {
             if (sortOption === "id") {
                 return a.id.localeCompare(b.id, undefined, { numeric: true });
@@ -141,17 +138,17 @@ export default function BoothList() {
     };
 
     return (
-        <div className="flex flex-col gap-6 font-sans">
+        <div className="flex flex-col gap-8 font-sans">
             {/* Filter and Sort Area */}
-            <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                <div className="relative w-full md:w-96 flex-shrink-0">
+            <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-5 rounded-2xl border border-accent-gold/20 shadow-sm">
+                <div className="relative w-full md:w-[400px] flex-shrink-0">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <input
                         type="text"
-                        placeholder="부스명, 위치(ID), 태그 검색..."
+                        placeholder="부스명, 위치(ID), 닉네임, 태그 검색..."
                         value={searchTerm}
                         onChange={handleSearchChange}
-                        className="w-full pl-9 pr-8 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent text-sm transition-shadow"
+                        className="w-full pl-10 pr-8 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-gold/50 focus:border-accent-gold/50 text-sm transition-shadow"
                     />
                     {searchTerm && (
                         <button 
@@ -165,122 +162,113 @@ export default function BoothList() {
                 </div>
                 
                 <div className="flex items-center gap-2 w-full md:w-auto">
-                    <span className="text-sm text-slate-500 whitespace-nowrap">정렬:</span>
-                    <select
-                        value={sortOption}
-                        onChange={(e) => setSortOption(e.target.value as SortOption)}
-                        className="bg-transparent border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 flex-1 md:flex-none cursor-pointer"
-                    >
-                        <option value="id">부스 위치순</option>
-                        <option value="name">가나다순</option>
-                    </select>
+                    <div className="flex items-center text-sm text-slate-500 whitespace-nowrap bg-slate-50 px-3 py-2.5 rounded-xl border border-slate-200">
+                        <ArrowUpDown className="w-4 h-4 mr-2" />
+                        <span className="mr-2">정렬:</span>
+                        <select
+                            value={sortOption}
+                            onChange={(e) => setSortOption(e.target.value as SortOption)}
+                            className="bg-transparent font-medium focus:outline-none cursor-pointer flex-1 md:flex-none"
+                        >
+                            <option value="id">부스 위치순</option>
+                            <option value="name">가나다순</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             {/* List Area */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
                 {currentBooths.length === 0 ? (
-                    <div className="text-center py-12 text-slate-500 bg-white rounded-xl border border-slate-100 shadow-sm">
+                    <div className="text-center py-16 text-slate-500 bg-white rounded-2xl border border-dashed border-accent-gold/30">
                         검색 결과가 없습니다.
                     </div>
                 ) : (
-                    currentBooths.map((booth) => {
-                        const isExpanded = expandedId === booth.id;
-                        return (
-                            <div
-                                key={booth.id}
-                                className={`flex flex-col md:flex-row bg-white border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-md ${
-                                    isExpanded ? 'border-slate-400 shadow-md ring-1 ring-slate-400' : 'border-slate-200 shadow-sm'
-                                }`}
-                                onClick={() => setExpandedId(isExpanded ? null : booth.id)}
-                            >
-                                {/* Thumbnail */}
-                                <div className="w-full md:w-[240px] shrink-0 overflow-hidden bg-slate-100">
+                    currentBooths.map((booth) => (
+                        <div
+                            key={booth.id}
+                            className="flex flex-col bg-white border border-accent-gold/20 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300"
+                        >
+                            {/* 상단 헤더 */}
+                            <div className="bg-slate-50/50 border-b border-accent-gold/10 px-5 md:px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                                <h3 className="text-lg md:text-xl font-bold text-slate-800 leading-tight">
+                                    <span className="text-accent-gold mr-2">[{booth.id}]</span>
+                                    {booth.name}
+                                </h3>
+                                
+                                {/* 참가자 목록 */}
+                                <div className="flex flex-wrap items-center gap-2">
+                                    {booth.members.map((member, idx) => (
+                                        <div 
+                                            key={idx} 
+                                            className="flex items-center gap-1.5 text-sm font-medium bg-white border border-slate-200 px-2.5 py-1.5 rounded-lg shadow-sm"
+                                        >
+                                            {member.twitter && (
+                                                <a 
+                                                    href={`https://twitter.com/${member.twitter}`}
+                                                    target="_blank" 
+                                                    rel="noreferrer"
+                                                    className="text-[#1DA1F2] hover:opacity-80 transition-opacity flex items-center pr-1 border-r border-slate-100"
+                                                    title={`${member.nickname}의 트위터`}
+                                                >
+                                                    <Twitter className="w-4 h-4 fill-current" />
+                                                </a>
+                                            )}
+                                            <span className="text-slate-700">{member.nickname}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* 중단 콘텐츠 (PC: 좌우 배치, 모바일: 상하 레이아웃) */}
+                            <div className="flex flex-col md:flex-row p-5 md:p-6 gap-6 md:gap-8">
+                                {/* 썸네일 */}
+                                <div className="w-full md:w-[320px] shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-100 shadow-sm relative group">
                                     <img
                                         src={booth.imageUrl}
                                         alt={booth.name}
-                                        className="w-full h-full object-cover aspect-[4/3] md:min-h-[180px] transition-transform duration-500 hover:scale-105"
+                                        className="w-full h-full object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-105"
                                     />
                                 </div>
 
-                                {/* Content Area */}
-                                <div className={`flex flex-col md:flex-row flex-1 p-5 gap-5 transition-all duration-300`}>
-                                    {/* Info Column */}
-                                    <div className="flex-1 flex flex-col justify-between">
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <span className="px-2.5 py-1 text-xs font-bold bg-slate-800 text-white rounded-md tracking-wider">
-                                                    {booth.id}
+                                {/* 부스 소개 및 태그 */}
+                                <div className="flex-1 flex flex-col pt-1 md:pt-2">
+                                    <div className="text-[15px] text-slate-600 leading-relaxed whitespace-pre-wrap flex-1">
+                                        {booth.description}
+                                    </div>
+
+                                    {/* 하단 영역: 해시태그 */}
+                                    <div className="mt-6 pt-5 border-t border-dashed border-slate-200">
+                                        <div className="flex flex-wrap gap-2">
+                                            {booth.tags.map((tag, idx) => (
+                                                <span 
+                                                    key={idx} 
+                                                    className="px-3 py-1.5 text-xs font-semibold bg-accent-gold/10 text-accent-gold rounded-full"
+                                                >
+                                                    #{tag}
                                                 </span>
-                                                <div className="flex flex-wrap gap-1">
-                                                    {booth.tags.map((tag, idx) => (
-                                                        <span key={idx} className="px-2 py-1 text-[10px] sm:text-xs font-medium bg-slate-100 text-slate-600 rounded-full">
-                                                            #{tag}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                            <h3 className="text-lg md:text-xl font-bold text-slate-800 leading-tight mb-3">
-                                                {booth.name}
-                                            </h3>
-                                        </div>
-                                        
-                                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-auto">
-                                            {booth.members.map((member, idx) => (
-                                                <div key={idx} className="flex items-center gap-1.5 text-sm text-slate-600">
-                                                    <span className="font-medium bg-slate-50 px-2 py-0.5 rounded text-slate-700 border border-slate-100">{member.nickname}</span>
-                                                    {member.twitter && (
-                                                        <a 
-                                                            href={`https://twitter.com/${member.twitter}`}
-                                                            target="_blank" 
-                                                            rel="noreferrer"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                            className="text-blue-500 hover:text-blue-600 transition-colors bg-blue-50 p-1 rounded-full"
-                                                            title={`${member.nickname}의 트위터`}
-                                                        >
-                                                            <Twitter className="w-3.5 h-3.5" />
-                                                        </a>
-                                                    )}
-                                                </div>
                                             ))}
                                         </div>
                                     </div>
-
-                                    {/* Expandable Description Area (우측 또는 하단) */}
-                                    {isExpanded && (
-                                        <div className="flex-1 md:border-l md:border-slate-200/80 md:pl-5 border-t md:border-t-0 pt-4 md:pt-0 mt-2 md:mt-0 animate-in fade-in duration-300">
-                                            <div className="bg-slate-50 rounded-lg p-4 h-full border border-slate-100">
-                                                <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">
-                                                    {booth.description}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Expanse Indicator / Arrow chevron (Mobile Only below, PC Only right) */}
-                                    <div className="flex items-center justify-center pt-2 md:pt-0 text-slate-400">
-                                        <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isExpanded ? 'rotate-180 md:rotate-0' : 'md:-rotate-90'}`} />
-                                    </div>
                                 </div>
                             </div>
-                        );
-                    })
+                        </div>
+                    ))
                 )}
             </div>
 
             {/* Pagination */}
             {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-2 mt-4 mb-8">
+                <div className="flex justify-center items-center gap-2 mt-8 mb-12">
                     <button
                         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                         disabled={currentPage === 1}
-                        className="p-2 rounded-lg border border-slate-200 disabled:opacity-50 hover:bg-slate-50 transition-colors bg-white shadow-sm"
+                        className="p-2.5 rounded-xl border border-slate-200 disabled:opacity-50 hover:bg-slate-50 transition-colors bg-white shadow-sm"
                     >
-                        <ChevronLeft className="w-4 h-4" />
+                        <ChevronLeft className="w-5 h-5" />
                     </button>
-                    <div className="flex gap-1 border border-slate-200 rounded-lg p-1 bg-white shadow-sm">
+                    <div className="flex gap-1.5 border border-slate-200 rounded-xl p-1.5 bg-white shadow-sm">
                         {Array.from({ length: totalPages }).map((_, idx) => {
-                            // 간단한 페이지네이션 표시 (모바일 대응)
                             if (
                                 totalPages > 5 &&
                                 idx !== 0 &&
@@ -288,7 +276,7 @@ export default function BoothList() {
                                 Math.abs(currentPage - 1 - idx) > 1
                             ) {
                                 if (idx === 1 || idx === totalPages - 2) {
-                                    return <span key={idx} className="w-8 h-8 flex items-center justify-center text-slate-400">...</span>;
+                                    return <span key={idx} className="w-10 h-10 flex items-center justify-center text-slate-400 font-medium tracking-widest">...</span>;
                                 }
                                 return null;
                             }
@@ -297,9 +285,9 @@ export default function BoothList() {
                                 <button
                                     key={idx}
                                     onClick={() => setCurrentPage(idx + 1)}
-                                    className={`w-8 h-8 rounded-md text-sm font-medium transition-colors ${
+                                    className={`w-10 h-10 rounded-lg text-sm font-semibold transition-all duration-200 ${
                                         currentPage === idx + 1
-                                            ? "bg-slate-800 text-white"
+                                            ? "bg-slate-800 text-white shadow-md scale-105"
                                             : "text-slate-600 hover:bg-slate-100"
                                     }`}
                                 >
@@ -311,9 +299,9 @@ export default function BoothList() {
                     <button
                         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                         disabled={currentPage === totalPages}
-                        className="p-2 rounded-lg border border-slate-200 disabled:opacity-50 hover:bg-slate-50 transition-colors bg-white shadow-sm"
+                        className="p-2.5 rounded-xl border border-slate-200 disabled:opacity-50 hover:bg-slate-50 transition-colors bg-white shadow-sm"
                     >
-                        <ChevronRight className="w-4 h-4" />
+                        <ChevronRight className="w-5 h-5" />
                     </button>
                 </div>
             )}
